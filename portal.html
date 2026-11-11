@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AL-HAQQ MODEL COLLEGE - Portal</title>
+<style>
+*{box-sizing:border-box}body{font-family:Arial;margin:0;background:#f2f2f2}
+.top{background:#5b0096;color:white;text-align:center;padding:25px 15px}
+.top h1{margin:0;font-size:30px;line-height:1.1}.top p{margin:8px 0 0;font-size:14px;letter-spacing:1px}
+.box{background:white;max-width:480px;margin:15px auto;padding:20px;border-radius:15px}
+.pay{background:#efe6f7;border:1px dashed #5b0096;border-radius:10px;text-align:center;padding:15px;font-weight:bold;line-height:1.8}
+input,select{width:100%;padding:13px;margin:8px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
+.btn{width:100%;padding:14px;border:none;border-radius:10px;font-size:16px;font-weight:bold;color:white;cursor:pointer}
+.green{background:#22c55e}.purple{background:#5b0096}.grey{background:#6b7280}.red{background:#dc2626}
+.hidden{display:none}table{width:100%;border-collapse:collapse;margin-top:10px}td,th{border:1px solid #ddd;padding:8px;font-size:14px}
+h2{margin:10px 0}
+</style></head><body>
+<div class="top"><h1>AL-HAQQ MODEL<br>COLLEGE</h1><p>STUDENT PORTAL - JSS & SSS - ALL SUBJECTS</p></div>
+
+<div class="box" id="mainBox">
+<h2>STEP 1: Pay ₦150</h2>
+<div class="pay">Bank: Wema Bank<br>Account: 0458138375<br>Name: NDAW PREES<br>Amount: ₦150</div>
+<a href="https://wa.me/2348131153007?text=Hello, I have paid N150 for result" style="text-decoration:none"><button class="btn green" style="margin-top:12px">📱 Send Receipt to 08131153007</button></a>
+
+<h2 style="margin-top:25px">STEP 2: Check Result</h2>
+<input id="sid" placeholder="Student ID e.g. AHQ/001">
+<input id="spin" placeholder="PIN from Admin e.g. 1234">
+<button class="btn purple" onclick="checkResult()">CHECK MY RESULT</button>
+<p id="smsg" style="color:red;text-align:center"></p>
+<hr>
+<button class="btn grey" onclick="showTeacher()">👨‍🏫 Teacher Login - Add Student / Subject</button>
+<p style="text-align:center;font-size:12px;color:#888;margin-top:10px">Student Demo: ID: AHQ/001 PIN: 1234<br>Teacher Demo: Gmail: teacher@gmail.com Pass: 1234</p>
+</div>
+
+<div class="box hidden" id="teacherBox">
+<h2 style="text-align:center;color:#5b0096">Teacher Login</h2>
+<input id="tgmail" placeholder="Teacher Gmail">
+<input id="tpass" type="password" placeholder="Teacher Password">
+<button class="btn purple" onclick="teacherLogin()">LOGIN AS TEACHER</button>
+<button class="btn grey" onclick="backMain()" style="margin-top:10px">← Back</button>
+<p id="tmsg" style="color:red;text-align:center"></p>
+</div>
+
+<div class="box hidden" id="teacherDash">
+<h2>Welcome Teacher 👨‍🏫</h2>
+<p>Add Student Result</p>
+<input id="nsid" placeholder="New Student ID e.g. AHQ/002">
+<input id="nname" placeholder="Student Full Name">
+<select id="nclass"><option>JSS 1</option><option>JSS 2</option><option>JSS 3</option><option>SS 1</option><option>SS 2</option><option>SS 3</option></select>
+<input id="npin" placeholder="Create PIN for student e.g. 5678">
+<input id="nsubj" placeholder="Subject e.g. Maths">
+<input id="nscore" placeholder="Score e.g. 85">
+<button class="btn green" onclick="addStudent()">SAVE STUDENT & RESULT</button>
+<p id="tsaved" style="color:green;text-align:center"></p>
+<h3>Saved Students</h3><div id="list"></div>
+<button class="btn red" onclick="backMain()" style="margin-top:15px">LOGOUT</button>
+</div>
+
+<div class="box hidden" id="resultBox">
+<h2 id="rname" style="color:#5b0096"></h2>
+<p id="rinfo"></p>
+<table><tr><th>Subject</th><th>Score</th><th>Grade</th></tr><tbody id="rtable"></tbody></table>
+<p id="rtotal"></p>
+<button class="btn grey" onclick="backMain()">← Check Another Result</button>
+</div>
+
+<script>
+// Default demo student
+if(!localStorage.getItem('AHQ/001')) localStorage.setItem('AHQ/001', JSON.stringify({name:'Test Student',class:'JSS 1',pin:'1234',subjects:[['English',78,'A'],['Maths',82,'A'],['Biology',70,'B'],['CRS / IRS',85,'A'],['Basic Science',74,'B']]}));
+function showTeacher(){document.getElementById('mainBox').classList.add('hidden');document.getElementById('teacherBox').classList.remove('hidden')}
+function backMain(){document.querySelectorAll('.box').forEach(b=>b.classList.add('hidden'));document.getElementById('mainBox').classList.remove('hidden')}
+function teacherLogin(){
+let g=document.getElementById('tgmail').value.toLowerCase(), p=document.getElementById('tpass').value;
+if(g=='teacher@gmail.com' && p=='1234'){document.getElementById('teacherBox').classList.add('hidden');document.getElementById('teacherDash').classList.remove('hidden');showList()} else {document.getElementById('tmsg').innerText='Wrong Teacher Gmail or Password! Use teacher@gmail.com / 1234'}}
+function addStudent(){
+let id=document.getElementById('nsid').value.toUpperCase(), n=document.getElementById('nname').value, c=document.getElementById('nclass').value, pin=document.getElementById('npin').value, sub=document.getElementById('nsubj').value, sc=parseInt(document.getElementById('nscore').value);
+if(!id||!n||!pin){document.getElementById('tsaved').innerText='Fill ID, Name, PIN';return}
+let grade=sc>=70?'A':sc>=60?'B':sc>=50?'C':'D';
+localStorage.setItem(id, JSON.stringify({name:n,class:c,pin:pin,subjects:[[sub,sc,grade]]}));
+document.getElementById('tsaved').innerText='Saved! Student '+n+' ID '+id+' PIN '+pin;
+showList()}
+function showList(){let h='';for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);if(k.startsWith('AHQ/')){let s=JSON.parse(localStorage.getItem(k));h+='<p style="border:1px solid #eee;padding:8px;border-radius:8px">'+k+' - '+s.name+' - '+s.class+' - PIN: '+s.pin+'</p>'}}document.getElementById('list').innerHTML=h||'No student yet'}
+function checkResult(){
+let id=document.getElementById('sid').value.toUpperCase(), pin=document.getElementById('spin').value;
+let s=JSON.parse(localStorage.getItem(id)||'null');
+if(!s){document.getElementById('smsg').innerText='Student ID not found! Ask Teacher to add you.';return}
+if(s.pin!==pin){document.getElementById('smsg').innerText='Wrong PIN! Ask Admin for correct PIN.';return}
+document.getElementById('mainBox').classList.add('hidden');document.getElementById('resultBox').classList.remove('hidden');
+document.getElementById('rname').innerText='Result - '+s.name;document.getElementById('rinfo').innerText='ID: '+id+' | Class: '+s.class;
+let html='',total=0;s.subjects.forEach(a=>{html+='<tr><td>'+a[0]+'</td><td>'+a[1]+'</td><td>'+a[2]+'</td></tr>';total+=a[1]});
+document.getElementById('rtable').innerHTML=html;document.getElementById('rtotal').innerHTML='<b>Total: '+total+' | Average: '+(total/s.subjects.length).toFixed(1)+'%</b>'}
+</script></body></html>
