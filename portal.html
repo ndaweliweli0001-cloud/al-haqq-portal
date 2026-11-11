@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AL-HAQQ MODEL COLLEGE - Portal</title>
+<style>
+*{box-sizing:border-box}body{font-family:Arial;margin:0;background:#0f0f1a;color:white}
+.top{background:linear-gradient(#5b0096,#2a0045);padding:20px;position:relative}
+.top h1{margin:5px 0 0;font-size:26px;line-height:1.2}.top p{color:#ccc;font-size:14px}
+.card{background:#1a1a2e;margin:15px;border-radius:15px;padding:18px}
+input,select{width:100%;padding:13px;margin:8px 0;background:#2a2a3d;border:1px solid #444;color:white;border-radius:10px;font-size:15px}
+.btn{width:100%;padding:14px;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer}
+.red{background:#7f1d1d;color:white}.purple{background:#5b0096;color:white}.grey{background:#333;color:white}
+.hidden{display:none}.flex{display:flex;gap:10px}.box2{background:#22223a;border-radius:12px;padding:14px;flex:1}
+.steps{display:flex;gap:8px;overflow:auto}.step{text-align:center;font-size:11px;min-width:55px}
+.dot{width:38px;height:38px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;margin:auto;font-weight:bold}
+.dot2{background:#5b0096}.bar{height:6px;background:#333;border-radius:5px;margin:10px 0}.bar i{display:block;height:6px;width:85%;background:#5b0096;border-radius:5px}
+.nav{display:flex;justify-content:space-around;background:#1a1a2e;padding:12px;position:fixed;bottom:0;left:0;right:0;font-size:12px;text-align:center}
+table{width:100%;border-collapse:collapse}td{padding:8px;border-bottom:1px solid #333;font-size:14px}
+</style></head><body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+<div class="top"><div style="font-size:11px;background:#ff7b00;display:inline-block;padding:3px 8px;border-radius:5px">🏫 SCHOOL</div>
+<h1>Welcome back to your school dashboard.</h1><p>Results, attendance, CBT and fees, all waiting where you left them.</p></div>
+<div style="padding:20px">
+<h2 style="font-size:28px;margin:0">Sign in</h2><p style="color:#aaa">Log in to start managing your school.</p>
+<label>Email address</label><input id="email" placeholder="you@example.com">
+<label>Password</label><input id="pass" type="password" placeholder="Your password">
+<p style="text-align:right;color:#ff7b00">Forgot password?</p>
+<button class="btn red" onclick="doLogin()">Sign in</button>
+<p style="text-align:center;color:#888">——— OR ———</p>
+<button class="btn grey" onclick="doLogin()">G Continue with Google</button>
+<p style="text-align:center;color:#ff7b00">👆 Fingerprint / Face ID &nbsp;·&nbsp; Scan staff ID</p>
+<p style="text-align:center">Don't have an account? <span style="color:#ff7b00" onclick="alert('Ask Admin to create school for you')">Create a school</span></p>
+<p id="lmsg" style="color:#ff6b6b;text-align:center"></p>
+<p style="text-align:center;font-size:12px;color:#888">Demo Login:<br>Email: teacher@gmail.com<br>Password: 1234</p>
+</div></div>
+
+<!-- DASHBOARD -->
+<div id="dashPage" class="hidden">
+<div style="background:#5b0096;padding:15px;display:flex;justify-content:space-between;align-items:center"><b>☰ &nbsp; Al-haqq model school</b><span>💬 ⚙️ →</span></div>
+<div style="display:flex;background:#1a1a2e;padding:10px;gap:10px;font-size:13px"><b style="color:#c084fc">👥 STUDENTS</b><span style="flex:1"></span><span>👤</span><span>📄</span><span>💳</span><span>🗑️</span></div>
+
+<div class="card">
+<div style="display:flex;justify-content:space-between"><b>🚀 Get your school ready</b><b>6 of 7 done</b></div>
+<div class="bar"><i></i></div>
+<div class="steps">
+<div class="step"><div class="dot">✓</div>Acco...</div><div class="step"><div class="dot">✓</div>Logo</div><div class="step"><div class="dot">✓</div>Class...</div><div class="step"><div class="dot">✓</div>Subj...</div><div class="step"><div class="dot">✓</div>Teac...</div><div class="step"><div class="dot dot2">6</div>Stud...</div><div class="step"><div class="dot">✓</div>Signa...</div>
+</div><hr style="border-color:#333">
+<b>Step 6 of 7: Add your students</b><p style="color:#aaa;font-size:13px">Register students into their classes, one by one or in bulk.</p>
+</div>
+
+<div class="card">
+<div class="flex"><div class="box2"><small style="color:#aaa">TOTAL STUDENTS</small><h2 id="total">0</h2></div><div class="box2"><small style="color:#aaa">MALE</small><h2 id="male" style="color:#38bdf8">0</h2></div></div>
+<div class="flex" style="margin-top:10px"><div class="box2"><small style="color:#aaa">FEMALE</small><h2 id="female" style="color:#f472b6">0</h2></div><div class="box2"><small style="color:#aaa">NO CLASS ASSIGNED</small><h2 id="noclass" style="color:#f59e0b">0</h2></div></div>
+</div>
+
+<div class="card">
+<h3 style="margin:0">Students</h3><p style="color:#aaa;font-size:13px" id="countTxt">0 records in this school</p>
+<div id="studentList"></div>
+<h3 style="margin-top:20px">➕ Add New Student</h3>
+<input id="sname" placeholder="Student Full Name e.g. Musa Ahmed">
+<select id="sgender"><option>Male</option><option>Female</option></select>
+<select id="sclass"><option>JSS 1</option><option>JSS 2</option><option>JSS 3</option><option>SS 1</option><option>SS 2</option><option>SS 3</option><option>No Class Assigned</option></select>
+<input id="sid" placeholder="Student ID e.g. AHQ/001">
+<input id="spin" placeholder="PIN e.g. 1234">
+<button class="btn purple" onclick="addStudent()">ADD STUDENT</button>
+<p id="smsg" style="color:#4ade80;text-align:center"></p>
+</div>
+<div style="height:70px"></div>
+<div class="nav"><span>🏠<br>Home</span><span>👥<br>Students</span><span>🎓<br>Results</span><span>💰<br>Fees</span><span>⚙️<br>More</span></div>
+</div>
+
+<script>
+let students = JSON.parse(localStorage.getItem('alhaqq_students')||'[]');
+function doLogin(){
+let e=document.getElementById('email').value.toLowerCase(), p=document.getElementById('pass').value;
+if((e=='teacher@gmail.com' && p=='1234') || (e=='admin@gmail.com' && p=='1234')){
+document.getElementById('loginPage').classList.add('hidden');document.getElementById('dashPage').classList.remove('hidden');render();
+}else{document.getElementById('lmsg').innerText='Wrong Email or Password! Use teacher@gmail.com / 1234'}}
+function addStudent(){
+let n=document.getElementById('sname').value, g=document.getElementById('sgender').value, c=document.getElementById('sclass').value, id=document.getElementById('sid').value.toUpperCase(), pin=document.getElementById('spin').value;
+if(!n||!id){document.getElementById('smsg').innerText='Fill Name and ID';return}
+students.push({name:n,gender:g,class:c,id:id,pin:pin});localStorage.setItem('alhaqq_students',JSON.stringify(students));
+document.getElementById('smsg').innerText='Student '+n+' Added! ID '+id+' PIN '+pin;render();
+document.getElementById('sname').value='';document.getElementById('sid').value='';}
+function render(){
+document.getElementById('total').innerText=students.length;
+document.getElementById('male').innerText=students.filter(s=>s.gender=='Male').length;
+document.getElementById('female').innerText=students.filter(s=>s.gender=='Female').length;
+document.getElementById('noclass').innerText=students.filter(s=>s.class=='No Class Assigned').length;
+document.getElementById('countTxt').innerText=students.length+' records in this school';
+let h='';students.forEach((s,i)=>{h+='<table><tr><td>👤 <b>'+s.name+'</b><br><small style="color:#aaa">'+s.id+' | '+s.class+' | '+s.gender+' | PIN: '+s.pin+'</small></td><td style="color:red" onclick="delStu('+i+')">🗑️</td></tr></table>'});
+document.getElementById('studentList').innerHTML=h||'<p style="color:#888">No student yet. Add one above.</p>'}
+function delStu(i){students.splice(i,1);localStorage.setItem('alhaqq_students',JSON.stringify(students));render()}
+render();
+</script></body></html>
