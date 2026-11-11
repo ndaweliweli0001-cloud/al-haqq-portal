@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>AL-HAQQ MODEL COLLEGE</title>
+<style>
+*{box-sizing:border-box}body{font-family:Arial;margin:0;background:#141414;color:#fff}
+input,select{width:100%;padding:12px;margin:7px 0;background:#2b2b2b;border:1px solid #444;color:#fff;border-radius:10px;font-size:15px}
+.btn{width:100%;padding:13px;border:none;border-radius:10px;font-weight:bold;cursor:pointer}
+.red{background:#7f1d1d;color:#fff}.purple{background:#5b0096;color:#fff}.green{background:#16a34a;color:#fff}.grey{background:#333;color:#fff}
+.hidden{display:none}.card{background:#1f1f1f;margin:12px;border-radius:14px;padding:16px}
+.flex{display:flex;gap:10px}.box2{background:#2a2a2a;border-radius:12px;padding:12px;flex:1}
+.menu{position:fixed;top:0;left:-280px;width:270px;height:100%;background:#0a0a0a;z-index:99;padding:15px;transition:.3s;overflow:auto}
+.menu.open{left:0}.menu b{display:block;padding:12px;border-radius:10px;cursor:pointer;margin:3px 0}.menu b:hover{background:#5b0096}
+.sub{margin-left:18px;display:none}.sub.open{display:block}.sub span{display:block;padding:9px 10px;border-radius:8px;color:#aaa;cursor:pointer}.sub span:hover,.sub span.on{background:#5b0096;color:#fff}
+.overlay{position:fixed;inset:0;background:#0008;display:none;z-index:90}.overlay.show{display:block}
+.logo{width:70px;height:70px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:35px;margin:auto}
+.photo{width:150px;height:160px;background:#aaa;border-radius:10px;margin:auto;display:flex;align-items:center;justify-content:center;font-size:60px;color:#666;position:relative}
+</style></head><body>
+
+<!-- LOGIN -->
+<div id="loginPage">
+<div style="background:linear-gradient(#7f1d1d,#3a0a0a);padding:25px"><div style="font-size:30px">🏫</div><h1 style="font-size:32px;line-height:1.2">Welcome back to your school dashboard.</h1><p style="color:#ddd">Results, attendance, CBT and fees, all waiting where you left them.</p></div>
+<div style="padding:20px"><h2 style="font-size:30px;margin:0">Sign in</h2><p style="color:#aaa">Log in to start managing your school.</p>
+<label>Email address</label><input id="email" value="teacher@gmail.com" placeholder="you@example.com">
+<label>Password</label><input id="pass" type="password" value="1234" placeholder="Your password">
+<p style="text-align:right;color:#ff7b00">Forgot password?</p>
+<button class="btn red" onclick="doLogin()">Sign in</button>
+<p style="text-align:center;color:#888">——— OR ———</p>
+<button class="btn grey" onclick="doLogin()">G Continue with Google</button>
+<p style="text-align:center;color:#ff7b00">👆 Fingerprint / Face ID · Scan staff ID</p>
+<p style="text-align:center">Don't have an account? <span style="color:#ff7b00" onclick="showReg()">Create a school</span></p>
+<p style="text-align:center;font-size:12px;color:#888">Just tap Sign in - already filled!</p></div></div>
+
+<div id="regPage" class="hidden" style="padding:20px"><h2>Create a school</h2><input id="schName" placeholder="School Name"><input id="regEmail" placeholder="Admin Email"><input id="regPass" placeholder="Password"><button class="btn purple" onclick="createSchool()">CREATE SCHOOL</button><button class="btn grey" onclick="backLogin()" style="margin-top:10px">← Back</button><p id="regMsg" style="color:#4ade80;text-align:center"></p></div>
+
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<div class="menu" id="sideMenu">
+<div style="text-align:center"><div class="logo">🕌</div><br><b>Al-haqq Model College</b><small style="color:#aaa">Olohunda via Eyenkorin</small></div><hr style="border-color:#333">
+<b onclick="go('dashboard')">▦ Dashboard</b>
+<b onclick="tog('subStu')">🎓 Students ^</b><div class="sub" id="subStu"><span onclick="go('dashboard')">● All Students</span><span onclick="go('addstudent')">● Add Student</span><span onclick="go('students')">● Import Students CSV</span><span onclick="go('attendance')">● Student Attendance</span><span onclick="go('idcard')">● Student ID Cards</span></div>
+<b onclick="tog('subTea')">👥 Teachers ^</b><div class="sub" id="subTea"><span onclick="go('teachers')">● All Teachers</span><span onclick="go('addteacher')">● Add Teacher</span><span onclick="go('attendance')">● Staff Attendance</span><span onclick="go('idcard')">● Staff ID Cards</span></div>
+<b onclick="tog('subAca')">🎓 Academics ^</b><div class="sub" id="subAca"><span onclick="go('classes')">● Classes</span><span onclick="go('subjects')">● Subjects</span><span onclick="go('lesson')">● Lesson Notes (AI)</span><span onclick="go('scorebook')">● Scorebook</span><span onclick="go('results')">● Prepare Results</span><span onclick="go('results')">● Bulk Result PDFs</span><span onclick="go('cbt')">● CBT Setup</span><span onclick="go('cbt')">● CBT Results</span></div>
+<b onclick="tog('subFin')">💳 Finance ^</b><div class="sub" id="subFin"><span onclick="go('finance')">● Finance & Fees</span><span onclick="go('finance')">● Referrals</span></div>
+<b onclick="tog('subCon')">🖼️ School Content ^</b><div class="sub" id="subCon"><span onclick="go('content')">● News</span><span onclick="go('content')">● Gallery</span></div>
+<b onclick="go('reviews')">⭐ Reviews</b>
+<b onclick="doLogout()" style="color:#ff6b6b">→ Logout</b><p style="text-align:center;color:#555;font-size:12px">Build 25.0.0</p></div>
+
+<div id="main" class="hidden">
+<div style="background:#4a0072;padding:14px;display:flex;gap:12px;align-items:center"><span onclick="toggleMenu()" style="font-size:24px;cursor:pointer">☰</span><b>Al-haqq model school</b><span style="margin-left:auto">💬 ⚙️ →</span></div>
+
+<!-- DASHBOARD -->
+<div id="p-dashboard">
+<div class="card"><div style="display:flex;justify-content:space-between"><b>🚀 Get your school ready</b><b>6 of 7 done</b></div><div style="height:8px;background:#333;border-radius:5px;margin:10px 0"><div style="width:85%;height:8px;background:#5b0096;border-radius:5px"></div></div>
+<div class="flex" style="text-align:center;font-size:11px"><div><div style="width:38px;height:38px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;margin:auto">✓</div>Acco...</div><div><div style="width:38px;height:38px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;margin:auto">✓</div>Logo</div><div><div style="width:38px;height:38px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;margin:auto">✓</div>Class...</div><div><div style="width:38px;height:38px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;margin:auto">✓</div>Subj...</div><div><div style="width:38px;height:38px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;margin:auto">✓</div>Teac...</div><div><div style="width:38px;height:38px;border-radius:50%;background:#5b0096;display:flex;align-items:center;justify-content:center;margin:auto">6</div>Stud...</div><div><div style="width:38px;height:38px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;margin:auto">✓</div>Signa...</div></div><hr style="border-color:#333"><b>Step 6 of 7: Add your students</b><p style="color:#aaa">Register students into their classes, one by one or in bulk.</p></div>
+<div class="card"><div class="flex"><div class="box2"><small style="color:#aaa">TOTAL STUDENTS</small><h2 id="totalS">0</h2></div><div class="box2"><small style="color:#aaa">MALE</small><h2 id="male" style="color:#38bdf8">0</h2></div></div><div class="flex" style="margin-top:10px"><div class="box2"><small style="color:#aaa">FEMALE</small><h2 id="female" style="color:#f472b6">0</h2></div><div class="box2"><small style="color:#aaa">NO CLASS ASSIGNED</small><h2 id="noclass" style="color:#f59e0b">0</h2></div></div></div>
+<div class="card"><h3>Students</h3><p id="countS" style="color:#aaa">0 records in this school</p><div id="studentList"></div><button class="btn purple" onclick="go('addstudent')">+ Add Student</button></div>
+</div>
+
+<!-- ADD STUDENT - LIKE PICTURE 4 -->
+<div id="p-addstudent" class="hidden"><div class="card"><h2>New Student</h2><p style="color:#aaa">Register a new student for this school.</p><div class="photo">👤<span style="position:absolute;bottom:5px;right:5px;background:#333;border-radius:50%;padding:5px;font-size:16px">📷</span></div>
+<div class="flex"><div style="flex:1"><label>Surname</label><input id="surname" placeholder="Surname"></div><div style="flex:1"><label>Firstname</label><input id="firstname" placeholder="Firstname"></div></div>
+<label>Other Name</label><input id="othername" placeholder="Othername">
+<div class="flex"><div style="flex:1"><label>Gender</label><select id="sgender"><option>Male</option><option>Female</option></select></div><div style="flex:1"><label>Date of Birth</label><input id="dob" type="date"></div></div>
+<label>Class</label><select id="sclass"><option>JSS 1</option><option>JSS 2</option><option>JSS 3</option><option>SS 1</option><option>SS 2</option><option>SS 3</option><option>No Class Assigned</option></select>
+<label>Student ID</label><input id="sid" placeholder="AHQ/001"><label>PIN for Result</label><input id="spin" placeholder="1234"><label>Parent Phone</label><input id="sphone" placeholder="080...">
+<button class="btn purple" onclick="addStudent()">💾 Save Details</button><p id="smsg" style="color:#4ade80;text-align:center"></p></div></div>
+
+<!-- STUDENTS / TEACHERS / OTHERS -->
+<div id="p-students" class="hidden"><div class="card"><h3>All Students / Import CSV</h3><div id="studentList2"></div><p style="color:#aaa">Paste names like: Musa Ahmed, JSS1 - then tap Import</p><input id="csv" placeholder="Musa Ahmed, JSS 1"><button class="btn green" onclick="importCSV()">IMPORT STUDENTS CSV</button></div></div>
+<div id="p-teachers" class="hidden"><div class="card"><h3>All Teachers</h3><p id="countT" style="color:#aaa">0 teachers</p><div id="teacherList"></div></div></div>
+<div id="p-addteacher" class="hidden"><div class="card"><h3>Add Teacher</h3><div class="photo">👨‍🏫</div><input id="tname" placeholder="Teacher Full Name"><input id="temail" placeholder="Teacher Email"><input id="tpass" placeholder="Teacher Password"><select id="tsubj"></select><select id="tclass"><option>JSS 1</option><option>JSS 2</option><option>JSS 3</option><option>SS 1</option><option>SS 2</option><option>SS 3</option><option>All Classes</option></select><button class="btn green" onclick="addTeacher()">REGISTER TEACHER</button><p id="tmsg" style="color:#4ade80;text-align:center"></p></div></div>
+<div id="p-classes" class="hidden"><div class="card"><h3>Classes</h3><p>JSS 1, JSS 2, JSS 3, SS 1, SS 2, SS 3, Primary 1-6, Nursery 1-3, Creche</p><input id="newClass" placeholder="Add New Class"><button class="btn purple" onclick="alert('Class Added!')">ADD CLASS</button></div></div>
+<div id="p-subjects" class="hidden"><div class="card"><h3>Subjects - All Subjects In The World</h3><p style="color:#aaa">Tap subject to add result for student</p><div id="subjList"></div></div></div>
+<div id="p-lesson" class="hidden"><div class="card"><h3>Lesson Notes (AI)</h3><select id="lessonSubj"></select><input id="lessonTopic" placeholder="Topic e.g. Photosynthesis"><button class="btn purple" onclick="genLesson()">GENERATE LESSON NOTE</button><div id="lessonOut"></div></div></div>
+<div id="p-scorebook" class="hidden"><div class="card"><h3>Scorebook / Prepare Results</h3><input id="aId" placeholder="Student ID e.g. AHQ/001"><select id="aSubj"></select><input id="aScore" placeholder="Score e.g. 85"><button class="btn purple" onclick="addResult()">SAVE RESULT</button><p id="amsg" style="color:#4ade80;text-align:center"></p><div id="resultList"></div></div></div>
+<div id="p-results" class="hidden"><div class="card"><h3>Prepare Results / Bulk PDFs</h3><input id="checkId" placeholder="Student ID"><input id="checkPin" placeholder="PIN"><button class="btn green" onclick="checkResult()">CHECK MY RESULT</button><div id="checkOut"></div><p style="color:#aaa">Pay ₦150 - Wema 0458138375 - NDAW PREES</p></div></div>
+<div id="p-cbt" class="hidden"><div class="card"><h3>CBT Setup / CBT Results</h3><p>Computer Based Test - 20 Questions, 20 Mins</p><button class="btn purple" onclick="startCBT()">START CBT DEMO</button><div id="cbtOut"></div></div></div>
+<div id="p-attendance" class="hidden"><div class="card"><h3>Attendance</h3><div id="attList"></div><button class="btn green" onclick="alert('Attendance Saved!')">SAVE ATTENDANCE</button></div></div>
+<div id="p-idcard" class="hidden"><div class="card"><h3>ID Cards</h3><div id="idList"></div></div></div>
+<div id="p-finance" class="hidden"><div class="card"><h3>Finance & Fees / Referrals</h3><p>Result: ₦150 | School Fees: ₦15,000 | Referral Bonus: ₦500</p><input id="fName" placeholder="Student Name"><input id="fAmt" placeholder="Amount e.g. 150"><button class="btn green" onclick="addPay()">RECORD PAYMENT</button><p id="fmsg" style="color:#4ade80;text-align:center"></p><div id="payList"></div></div></div>
+<div id="p-content" class="hidden"><div class="card"><h3>News / Gallery</h3><input id="announce" placeholder="Type News"><button class="btn purple" onclick="addAnn()">POST NEWS</button><div id="annList"></div><p>🏫 Gallery: School Building, Students, Teachers, Graduation</p></div></div>
+<div id="p-reviews" class="hidden"><div class="card"><h3>Reviews</h3><input id="rvName" placeholder="Your Name"><input id="rvText" placeholder="Write Review..."><button class="btn purple" onclick="addRev()">POST REVIEW</button><div id="revList"></div></div></div>
+<div style="height:60px"></div>
+<div style="position:fixed;bottom:15px;right:15px;background:#25D366;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;z-index:50">💬</div>
+</div>
+<script>
+var SUBJECTS=["English Language","Mathematics","Further Mathematics","Biology","Chemistry","Physics","Agricultural Science","Economics","Government","Literature in English","CRS","IRS","Islamic Studies","Christian Studies","Geography","History","Civic Education","Social Studies","Basic Science","Basic Technology","Computer Science / ICT","Home Economics","Business Studies","Accounting","Commerce","Marketing","French","Arabic","Yoruba","Hausa","Igbo","Fine Arts / Visual Art","Music","Physical & Health Education","Technical Drawing","Woodwork","Metal Work","Electrical Installation","Food & Nutrition","Clothing & Textiles","Guidance & Counselling","Library Studies","Diction / Phonetics","Verbal Reasoning","Quantitative Reasoning","Moral Instruction","Quran / Hadith","Tafsir","Fiqh","Tajweed","Arabic Grammar","English Literature","Drama","Dance","Photography","Coding / Robotics","Data Science","Artificial Intelligence","Environmental Science","Psychology","Sociology","Law","Medicine","Engineering","Architecture","Philosophy","Political Science"];
+let students=JSON.parse(localStorage.getItem('ah_s')||'[]'),teachers=JSON.parse(localStorage.getItem('ah_t')||'[]'),pays=JSON.parse(localStorage.getItem('ah_p')||'[]'),anns=JSON.parse(localStorage.getItem('ah_a')||'[]'),revs=JSON.parse(localStorage.getItem('ah_r')||'[]');
+function save(){localStorage.setItem('ah_s',JSON.stringify(students));localStorage.setItem('ah_t',JSON.stringify(teachers));localStorage.setItem('ah_p',JSON.stringify(pays));localStorage.setItem('ah_a',JSON.stringify(anns));localStorage.setItem('ah_r',JSON.stringify(revs));render()}
+function doLogin(){document.getElementById('loginPage').classList.add('hidden');document.getElementById('main').classList.remove('hidden');render()}
+function showReg(){document.getElementById('loginPage').classList.add('hidden');document.getElementById('regPage').classList.remove('hidden')}
+function backLogin(){document.getElementById('regPage').classList.add('hidden');document.getElementById('loginPage').classList.remove('hidden')}
+function createSchool(){teachers.push({name:'Admin',email:document.getElementById('regEmail').value,pass:'1234',subj:'All',class:'All'});save();document.getElementById('regMsg').innerText='School Created!';setTimeout(backLogin,1000)}
+function toggleMenu(){document.getElementById('sideMenu').classList.toggle('open');document.getElementById('overlay').classList.toggle('show')}
+function tog(id){document.getElementById(id).classList.toggle('open')}
+function go(p){document.querySelectorAll('[id^="p-"]').forEach(d=>d.classList.add('hidden'));let el=document.getElementById('p-'+p);if(el)el.classList.remove('hidden');else document.getElementById('p-dashboard').classList.remove('hidden');if(document.getElementById('sideMenu').classList.contains('open'))toggleMenu();render()}
+function doLogout(){location.reload()}
+function addStudent(){let sur=document.getElementById('surname').value,first=document.getElementById('firstname').value,oth=document.getElementById('othername
